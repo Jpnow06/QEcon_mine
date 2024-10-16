@@ -63,6 +63,17 @@ plot!(times_two,-10:0.1:10)
 # c. Plot function h at the interval (-100, 100), using a 0.1 step size
 ####################################################################################### 
 # NOTE: the way to write Greek letters is to start typing: \alpha, \beta etc.
+g(x, α, β, γ, δ) = α*x^3 + β*x^2 + γ*x + δ
+#a)
+α=7
+β=3
+γ=2
+δ=5
+g(2, α, β, γ, δ)
+#b)
+h(x)=g(x, 4, -3, 2, 10)
+#c)
+plot(h,-100:0.1:100)
 
 function seventh_function(x)
     a = x^2
@@ -86,6 +97,7 @@ solution.a
 x = [5, 1, 3, 2,1000]
 sort(x)
 sort!(x)
+x
 # Julia convention recommends that developers add ! at the end of functions they create if those functions modify their arguments.
 
 ### Loops ###
@@ -145,7 +157,12 @@ end
 # 6. Return the mean
 # 7. Test the function
 ####################################################################################### 
-
+sum = 0
+n=15
+for i in 1:n
+    mean(n) = (sum + i)/n
+    println(mean(n))
+end
 
 ### Arrays and matrices ###
 # We have already seen a Julia array and array indexing in action
