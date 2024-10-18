@@ -1,168 +1,30 @@
 using Plots
 
-### Functions ###
-### (x,y) in the function below are arguments
-function first_functionA(x,y)
-    return x*y
-end
-first_functionA(3,2)
-# You can also define a simple function this way:
-first_functionB(x,y) = x*y 
-first_functionB(3,2)
-
-# You can define a new function that will use another function but ALWAYS evaluate it at a particular value
-second_function(x) = first_functionB(x,3)
-
-# 2 becomes a default value for y, though you can still change it when calling the function
-function third_function(x,y=2)
-    return x*y
-end
-third_function(3)
-third_function(3,2)
-third_function(3,3)
-
-# Define a function for a line
-function fourth_function(x,a,b)
-    return a*x+b
-end
-
-fourth_function(2,2,1)
-
-# Sometimes it is useful to have parameters defined as KEYWORD arguments
-function fifth_function(x; a, b)
-    return a*x+b
-end
-
-fifth_function(2,2,1) # ERROR, you need to provide the names of arguments!
-
-fifth_function(2, a=2, b=1)
-
-# You can combine both keyword arguments and default values:
-function sixth_function(x; a=2, b=1)
-    return a*x+b
-end
-
-sixth_function(2, a=2, b=0) 
-sixth_function(2)
-
-# You can define a "squared" function in either of these ways:
-function squared(x)
-    return x^2
-end
-squared(x) = x^2
-plot(squared,-10:0.1:10)
-
-# Short syntax for defining simple functions
-times_two(x) = 2 * x
-plot!(times_two,-10:0.1:10)
-
-#############################        QUICK TASK:         ############################# 
-# Consider the following polynomial function g(x, α, β, γ, δ) = α*x^3 + β*x^2 + γ*x + δ
-# a. Write it in Julia such that α, β, γ, δ are keyword arguments. Test for arbitrary values of all parameters. 
-# b. Now write a function h(x) that accepts only a value x but evaluates g at the coefficients 4, -3, 2, and 10.
-# c. Plot function h at the interval (-100, 100), using a 0.1 step size
-####################################################################################### 
-# NOTE: the way to write Greek letters is to start typing: \alpha, \beta etc.
-g(x, α, β, γ, δ) = α*x^3 + β*x^2 + γ*x + δ
-#a)
-α=7
-β=3
-γ=2
-δ=5
-g(2, α, β, γ, δ)
-#b)
-h(x)=g(x, 4, -3, 2, 10)
-#c)
-plot(h,-100:0.1:100)
-
-function seventh_function(x)
-    a = x^2
-    b = 2 * a
-    return  a, b
-end
-
-seventh_function(2)
-
-function eighth_function(x)
-    a = x^2
-    b = 2 * a
-    return (; a, b)  
-end
-solution = eighth_function(2)
-solution.a
-
-(; a, b) = eighth_function(2)
-
-# Often you will see an exclamation mark (!) at the end of the function name
-x = [5, 1, 3, 2,1000]
-sort(x)
-sort!(x)
-x
-# Julia convention recommends that developers add ! at the end of functions they create if those functions modify their arguments.
-
-### Loops ###
-for i in [1,2,3,4,5]
-    println(i)
-end
+my_sum = 0
 for i in 1:5
-    println(i)
+    my_sum = my_sum + i
+    println("sum: ", my_sum)
 end
-
-sum = 0
-for i in 1:5
-    sum = sum + i
-    println("sum: ", sum)
-end
-println("1+2+3+4+5=", sum)
-
-for i in 1:2:5
-    println(i)
-end
-for i in 5:-1:1
-    println(i)
-end
-
-for i in [1,2,3,4,5]
-    if !iseven(i)
-        println(i, " is odd")
-    end
-end
-
-i = 1
-while i <= 5 
-    println(i)    
-    global i += 1
-end
-
-i = 1
-while i <= 5 
-    global i += 1
-    if !iseven(i)
-        println(i, " is odd")
-    end
-end
-
-i = 1
-while i <= 5 
-    println(i)    
-end
-
+println("1+2+3+4+5=", my_sum)
 
 #############################        QUICK TASK:         ############################# 
 # Write a function that takes a number (n) as an argument and returns the mean of the values 1, 2, 3, ..., n.
 # 1. Define a function my_mean(n)
-# 2. Define a variable mean=0
+# 2. Define a variable my_sum=0
 # 4. Use a for loop to get the sum of numbers from 1 to n
 # 5. Then use the calculated sum to get the mean
 # 6. Return the mean
 # 7. Test the function
 ####################################################################################### 
-sum = 0
-n=2
-for i in 1:n
-    sum = sum + i
-    println(sum)
+function my_mean(n)
+    my_sum = 0
+    for i in 1:n
+        my_sum = my_sum + i #OR total += i
+    end
+    return my_sum/n
 end
+my_mean(2)
+
 
 ### Arrays and matrices ###
 # We have already seen a Julia array and array indexing in action
@@ -191,12 +53,13 @@ y = [1 2 3 ; 4 5 6]
 ndims(y)
 y_size = size(y)
 y[2,3]
-y[y_size[1], y_size[2]]
 y[end,end]
 
+#Extracting columns and rows!!!
 y[1,:]   # only the first row
 y[:,end] # only the last column
 
+n = 10
 mat = Matrix{Float64}(undef, n,n) 
 mat = zeros(n,n)
 mat = ones(n,n)
@@ -218,7 +81,24 @@ typeof(mat) == Array{Float64, 2}
 # 2. Use two nested for loops
 # 3. M[i,j] will give you element in the i-th row and j-th column
 ####################################################################################### 
+vec = Vector{Float64}(undef, 100) 
+vec[1] = 1
+vec[2] = 2
+vec[3] = 3
 
+for i in 1:100
+    vec[i] = i
+end
+vec
+mat = Matrix{Float64}(undef, a,b) 
+a=50
+b=20
+
+
+for mat[a,b] in 1:1000
+mat[a,b]=a*b
+    
+end
 
 # Broadcasting
 # In Julia, definitions of functions follow the rules of mathematics
@@ -226,8 +106,11 @@ x = [1 2 3]
 size(x)
 y = [1, 2, 3]
 x*y # the "*" follows matrix multiplication rules (1,3)*(3,1) --> (1,1)
-x*x'
+x'
 transpose(x)
+
+x*x'
+
 # How should we multiply two vectors element-wise?
 y = [1,2,3]
 x = [2,2,2]
@@ -239,7 +122,7 @@ y .* x
 # NOTE: the dimensions of the passed objects must match:
 y = [1,2,3]
 x = [2,2]
-# y.*x
+y.*x # error
 
 y = [1,2,3]
 x = [2,2,2]
@@ -248,10 +131,6 @@ z = similar(y)
 for i in eachindex(y, x)
     z[i] = y[i] * x[i] 
 end
-z
-# we can get the same result with a comprehension 
-[y[i] * x[i] for i in eachindex(y, x)]
-[0 for i in eachindex(y, x)]
 
 # using map 
 map(*, x, y)  # The passed function (*, in this case) is applied iteratively elementwise to those collections until one of them is exhausted
@@ -263,11 +142,7 @@ times_two.(y)
 # those can be built-in functions
 log.(y)
 
-# we can get the same result as with a comprehension 
-[log(i) for i in y]
-
 # or using map function
-map(log, y)
 map(x -> 2*x, y)
 
 # Expanding length-1 dimensions in broadcasting
@@ -277,7 +152,10 @@ map(x -> 2*x, y)
 # expanded to match the size of the other collection by repeating the value stored in
 # this single element:
 
-[1, 2, 3] .- [2]
+[1, 2, 3] .- 1
+[1, 2, 3] .- 2
+
+
 
 mat_ones = ones(3,3)
 vec_horizontal = [0.0 1.0 2.0]
@@ -293,29 +171,50 @@ vec_vertical .+ vec_horizontal
 # Write a function that does the following:
 #   Accepts n, which is the maximum value of a times table.
 #   Returns a matrix of size n by n, where the entries of the matrix are the product of the indices of that array.    
-# I.e. for n=5, I want to see a matrix where the [3,2] entry is 3 * 2 = 6
+# I.e. for n=5, the [3,2] entry is 3 * 2 = 6
 
 # BUT!
 # The body of the function must contain only two lines of code:
-# 1. Initialize the array containing values 1 to N (see around line 200 for hints)
+# 1. Initialize the array containing values 1 to N (see around line 46 for hints)
 # 2. Use vector operations (transpose) & broadcasting to get the multiplication table. Do not use any loops.
 ####################################################################################### 
 
+vec_vertical= collect(1:3)
+vec_horizontal=vec_vertical'
+vec_vertical.*vec_horizontal
 
+mat = Matrix{Float64}(undef, a,b) 
+a=50
+b=20
+
+
+for mat[a,b] in 1:1000
+mat[a,b]=a*b
+    
+end
 # Conditional extraction
 a = [10, 20, 30]
 b = [-100, 0, 100]
 
-a .> b
-a .== b
+a .> 0 # 1 if this particular element of vector a is greater than 0, 0 otherwise
+b .> 0
 
+sum(b .> 0) # How many of the elements in the array b that are greater than 0? This will sum 1s and 0s.
+b[b .> 0] # Extract only those elements of b which are greater than 0!
+
+a = [10, 20, 30]
+b = [10, 0, 100]
+
+a .== b # which element of a is equal to the corresponding element of b?
 # Now we extract only the elements of an array that satisfy a condition
-a[a .> b]
+a[a .== b]
 
 a = randn(100)
-b = randn(100)
-b[a .> 0]
+a[a .> 0]
 
+
+
+#### Tuples
 # Note in Julia it matters whether we use "()" or "[]"
 my_tuple_1 = (10, 20, 30)
 my_tuple_1[2]
