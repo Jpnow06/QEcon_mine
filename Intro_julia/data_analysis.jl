@@ -103,7 +103,7 @@ three_plots=plot(plot_1,plot_2,plot_3,layout=(1,3))
 # 1. Do it in steps: define numerator, denominator, and then use those to get the coefficient β1.
 # 2. Remember that you can use mean(), sum() and  broadcasting(you don't need any loops)!! to get the final result. 
 # 3. Define:
-x = data_1[:,1]
+x = data1[:,1]
 y = data_1[:,2]
 # 4. Define a function fit_regression(x,y)
 β1 = sum((y.-mean(y)).*(x.-mean(x)))/
