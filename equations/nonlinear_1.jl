@@ -1,6 +1,6 @@
 # Examples from/based on Fundamentals of Numerical Computation, Julia Edition. Tobin A. Driscoll and Richard J. Braun
 
-using PrettyTables, Plots, LaTeXStrings, LinearAlgebra, NLsolve, Roots
+using PrettyTables, Plots, LinearAlgebra, NLsolve, Roots
 
 
 
@@ -10,7 +10,6 @@ f(x) = x.^2 .- 3 .+ x .* sin.( 1 ./ x .+ x .^ 2 )
 
 plot(f, -30, 30, label="f(x) =  x^2 - 3 + x * sin(1/x + x^2 )", legend=:topleft)
 plot!(zero, -30, 30, label="y=0")
-
 
 guess = 20.5
 nlsolve(f,[guess],ftol=1e-14,show_trace=true)
