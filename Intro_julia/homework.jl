@@ -1,12 +1,12 @@
 Plots
 
 3.
-n=5
+
 function my_factorial(n)
     output = factorial(n) 
         println("Output:" , output)
     end 
-my_factorial
+my_factorial(9)
 
 
 

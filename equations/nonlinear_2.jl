@@ -116,3 +116,5 @@ plot(p1_vec,x[1,:],label="good 1",xlabel="price",ylabel="quantity",legend=:tople
 
 # different convention 
 plot(x[1,:],p1_vec,label="good 1",xlabel="quantity",ylabel="price",legend=:topleft)
+f(x)=3x+x^2
+f(777996696)
