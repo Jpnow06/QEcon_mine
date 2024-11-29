@@ -117,6 +117,7 @@ ncoefficients(runge_cheb_approx2)
 
 # what is this one?
 cheb0= Fun(space,[1])
+
 cheb1 = Fun(space,[0,1])
 cheb2 = Fun(space,[0,0,1])
 cheb3 = Fun(space,[0,0,0,1])
