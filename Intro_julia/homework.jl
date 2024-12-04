@@ -34,3 +34,4 @@ xaxis!(plot_2, "hours_worked")
 yaxis!(plot_2, "earnings")
 cor(earnings,education)
 cor(earnings,hours_worked)
+# Homework 2

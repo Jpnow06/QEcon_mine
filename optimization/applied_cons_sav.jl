@@ -39,9 +39,9 @@ hh_01   = create_HH(σ=0.1)
 hh_1    = create_HH(σ=1)
 hh_2    = create_HH(σ=2)
 
-hh_01.u(1)
-hh_1.u(1)
-hh_2.u(1)
+hh_01.u(2)
+hh_1.u(2)
+hh_2.u(2)
 
 ## Plot the utility as a function of consumption for different σ  
 plot(hh_01.u,0.3,10,xlabel="Consumption", label="σ=0.1",ylabel="u(c)",lw=3)
