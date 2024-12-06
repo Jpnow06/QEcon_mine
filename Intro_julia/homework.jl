@@ -1,4 +1,4 @@
-Plots
+using PrettyTables, Plots, LaTeXStrings, LinearAlgebra
 
 3.
 
@@ -10,12 +10,10 @@ my_factorial(9)
 
 
 
-#Problem 6
-function standard_deviation(x)
+#Problem 6 function standard_deviation(x)
     n=length(x)
     β1=sqrt((1/n-1)*sum((x.-(sum(x)/length(x))^2)))
   return β1
-end
 x=[1, 2, 5]
  standard_deviation(x)
  n
@@ -35,3 +33,21 @@ yaxis!(plot_2, "earnings")
 cor(earnings,education)
 cor(earnings,hours_worked)
 # Homework 2
+
+2.
+function value_x(α,β)
+    
+A=[1 -1 0 α-β β ; 0 1 -1 0 0 ; 0 0 1 -1 0 ; 0 0 0 1 -1 ; 0 0 0 0 1]
+b=[α ; 0 ; 0 ; 0 ; 1]
+x = A\ b
+return x
+end
+value_x(-12,7425252)
+x1=x[1]
+for i in 0:12
+    α=0.1
+    β_values=[(10.0)^i ]
+end
+3.
+
+4.

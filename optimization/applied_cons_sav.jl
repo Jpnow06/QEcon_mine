@@ -118,13 +118,13 @@ vline!([a_optim[1]],label="Optimal level of assets saved")
 
 function nlopt_objective_fn(a::Vector, grad::Vector,hh)
     ####### TASK 1:  Fill in the missing parts in the nlopt_objective_fn function #######
-        c_1     = 0 #Replace the 0!
-        c_2     = 0 #Replace the 0!
-        c_3     = 0 #Replace the 0!
-        c_4     = 0 #Replace the 0!
-        c_5     = 0 #Replace the 0!
+        c_1     = hh.u(hh.a_0*hh.R+hh.y[1]-a[1])
+        c_2     = hh.β*hh.u(a[1]*hh.R+hh.y[2]-a[2])
+        c_3     =(hh.β^2)* hh.u(a[2]*hh.R+hh.y[3]-a[3])
+        c_4     = (hh.β^3)*hh.u(a[3]*hh.R+hh.y[4]-a[4])
+        c_5     =(hh.β^4)*hh.u(a[4]*hh.R+hh.y[5])
 
-        Lifetime_util = 0 # Replace the 0! (what is a lifetime utility?) 
+        Lifetime_util = (c_1)+(c_2)+(c_3)+(c_4)+(c_5)
  
         println("Params, Function ",round.(a,digits=5),", ",round(Lifetime_util,digits=5)) 
         return Lifetime_util 
@@ -135,7 +135,7 @@ end
 hh    = create_HH(y=[1,4,3,0.5,0.5],a_0=1)
 
 ####### TASK 2: Define the correct dimensionality: #######
-opt = NLopt.Opt(:LN_COBYLA, 0) 
+opt = NLopt.Opt(:LN_COBYLA, 4) 
 
 ## Define the objective function:
 NLopt.max_objective!(opt, (a,grad)->nlopt_objective_fn(a, grad,hh))
@@ -150,11 +150,11 @@ opt.xtol_rel     = 1e-10
 max_f, a_optim, ret = NLopt.optimize(opt, [0.1,0.1,0.1,0.1])
 
 ####### TASK 3: Define and plot the path of optimal consumption #######
-c_1     = 0 #Replace the 0!
-c_2     = 0 #Replace the 0!
-c_3     = 0 #Replace the 0!
-c_4     = 0 #Replace the 0!
-c_5     = 0 #Replace the 0!
+c_1     = hh.u(hh.a_0*hh.R+hh.y[1]-a_optim[1])
+c_2     = hh.β*hh.u(a_optim[1]*hh.R+hh.y[2]-a_optim[2])
+c_3     =(hh.β^2)* hh.u(a_optim[2]*hh.R+hh.y[3]-a_optim[3])
+c_4     = (hh.β^3)*hh.u(a_optim[3]*hh.R+hh.y[4]-a_optim[4])
+c_5     =(hh.β^4)*hh.u(a_optim[4]*hh.R+hh.y[5])
 plot([c_1,c_2,c_3,c_4,c_5],xlabel="Period",ylabel="Consumption",label="",lw=3,yaxis=[0,3])
 
 ####################The end of concept check####################
