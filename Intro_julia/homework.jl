@@ -1,53 +1,79 @@
-using PrettyTables, Plots, LaTeXStrings, LinearAlgebra
+using PrettyTables, Plots, LaTeXStrings, LinearAlgebra, NLsolve, Roots, Iterativesolvers, Calculus
 
-3.
-
-function my_factorial(n)
-    output = factorial(n) 
-        println("Output:" , output)
-    end 
-my_factorial(9)
-
-
-
-#Problem 6 function standard_deviation(x)
-    n=length(x)
-    β1=sqrt((1/n-1)*sum((x.-(sum(x)/length(x))^2)))
-  return β1
-x=[1, 2, 5]
- standard_deviation(x)
- n
-sum(x)
-#Problem 7
-data_homework = readdlm("data_analysis//datasets//dataset.csv", ',',Float64)
-data_homework
-earnings=(data_homework[:,1])
-education=(data_homework[:,2])
-hours_worked=(data_homework[:,3])
-plot_1 = scatter(education,earnings ; legend=false, color=:blue, markersize = 5, opacity=0.7)
-plot_2 = scatter(hours_worked,earnings ; legend=false, color=:blue, markersize = 5, opacity=0.7)
-xaxis!(plot_1, "education")
-yaxis!(plot_1, "earnings")
-xaxis!(plot_2, "hours_worked")
-yaxis!(plot_2, "earnings")
-cor(earnings,education)
-cor(earnings,hours_worked)
 # Homework 2
 
 2.
-function value_x(α,β)
+function exact_solution(α,β)
+    x5=1
+    x4=x5
+    x3=x4
+    x2=x3
+    x1=x2-α-x4*(α-β)-x5*(β)
+    return [x1,x2,x3,x4,x5]
+
     
+    
+end
+exact_solution(4,7)
+function backlslash_x(α,β) 
 A=[1 -1 0 α-β β ; 0 1 -1 0 0 ; 0 0 1 -1 0 ; 0 0 0 1 -1 ; 0 0 0 0 1]
 b=[α ; 0 ; 0 ; 0 ; 1]
 x = A\ b
 return x
 end
-value_x(-12,7425252)
-x1=x[1]
-for i in 0:12
-    α=0.1
-    β_values=[(10.0)^i ]
-end
-3.
+backlslash_x(2,8) 
 
-4.
+function relative_residual(α,β)
+    A=[1 -1 0 α-β β ; 0 1 -1 0 0 ; 0 0 1 -1 0 ; 0 0 0 1 -1 ; 0 0 0 0 1]
+b=[α ; 0 ; 0 ; 0 ; 1]
+return norm(A*backlslash_x(α,β)-b)/norm(b)
+end
+relative_residual(4,5)
+
+function condition_numerator(α,β)
+    A=[1 -1 0 α-β β ; 0 1 -1 0 0 ; 0 0 1 -1 0 ; 0 0 0 1 -1 ; 0 0 0 0 1]
+b=[α ; 0 ; 0 ; 0 ; 1]
+ norm_A=norm(A,2)
+ inv_norm_A=norm(inv(A))
+ return norm_A*inv_norm_A
+end
+
+condition_numerator(3,16)
+
+
+
+function task_1(f, x0; tol=1e-6, maxiter=1000, α=0.0)
+g(x) = f(x) + x
+
+x_values = Float64[x0]
+residuals = Float64[] 
+
+for iteration in 1:maxiter
+
+    x1 = (1 - α) * g(x0) + α*x0
+    push!(x_values, x1)
+
+    residual = abs(x1 - x0)
+    push!(residuals, residual)
+
+    if residual < tol
+        return (0, x1, f(x1), abs(x1 - g(x1)), x_values, residuals)
+    end
+
+    x0 = x1
+end
+
+return (1, NaN, NaN, NaN, x_values, residuals)
+end
+
+function somefunction()
+f(x) = (x + 1)^(1/3) - x
+
+result = task_1(f, 1.0; tol=1e-6, maxiter=1000, α=0.0)
+println("Result: ", result)
+end
+
+somefunction()
+
+
+
